@@ -17,8 +17,8 @@ interface DishCardProps {
 
 export default function DishCard({ dish }: DishCardProps) {
   const { t } = useTranslation();
-  const themeColors = getAppThemeColors('gold-elegance');
-  const themeClasses = getAppThemeClasses('gold-elegance');
+  const themeColors = getAppThemeColors('panda-dark');
+  const themeClasses = getAppThemeClasses('panda-dark');
   const { addItem } = useCart();
 
   const [orderMode, setOrderMode] = useState(false);
