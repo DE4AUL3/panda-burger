@@ -3,12 +3,13 @@
 import Image from 'next/image';
 import { DishImage } from "./OptimizedImage";
 import { useState } from 'react';
-import { ShoppingCart, ArrowLeft } from 'lucide-react';
+import { ShoppingCart, ArrowLeft, Info } from 'lucide-react';
 
 import type { Dish } from '@/types';
 import { useTranslation } from './LanguageToggle';
 import { getAppThemeColors, getAppThemeClasses } from '@/styles/appTheme';
 import { useCart } from '@/hooks/useCart';
+import DishDetailsModal from './DishDetailsModal';
 
 interface DishCardProps {
   dish: Dish;
@@ -22,6 +23,7 @@ export default function DishCard({ dish }: DishCardProps) {
 
   const [orderMode, setOrderMode] = useState(false);
   const [quantity, setQuantity] = useState(1);
+  const [showModal, setShowModal] = useState(false);
 
   const handleAdd = () => {
     addItem({
@@ -64,7 +66,16 @@ export default function DishCard({ dish }: DishCardProps) {
         {!orderMode ? (
           <>
             <div>
-              <h3 className={`text-lg font-semibold ${themeClasses.text}`}>{dish.name}</h3>
+              <div className="flex items-center justify-between gap-2">
+                <h3 className={`text-lg font-semibold ${themeClasses.text} flex-1`}>{dish.name}</h3>
+                <button
+                  onClick={() => setShowModal(true)}
+                  className={`p-2 rounded-full ${themeClasses.bgSecondary} hover:${themeClasses.accent} hover:text-white transition-colors`}
+                  aria-label={t('viewDetails')}
+                >
+                  <Info className="w-4 h-4" />
+                </button>
+              </div>
               {dish.description ? (
                 <p className={`text-sm ${themeClasses.textSecondary} mt-1 line-clamp-3`}>{dish.description}</p>
               ) : null}
@@ -130,6 +141,12 @@ export default function DishCard({ dish }: DishCardProps) {
           </div>
         )}
       </div>
+      
+      <DishDetailsModal 
+        dish={dish}
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+      />
     </div>
   );
 }

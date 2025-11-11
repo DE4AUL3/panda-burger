@@ -72,12 +72,19 @@ export const translations = {
     baseDeliveryCost: 'Стоимость доставки',
     // Изображения
     uploadImage: 'Загрузить изображение',
-    changeImage: 'Изменить изображение',
-    removeImage: 'Удалить изображение',
+    changeImage: 'Изменить фото',
+    removeImage: 'Удалить фото', 
     imageSaved: 'Изображение сохранено',
     imageDeleted: 'Изображение удалено',
     errorUploadingImage: 'Ошибка загрузки изображения',
-    selectImage: 'Выберите изображение'
+    selectImage: 'Выберите изображение',
+    // Модальное окно блюда
+    description: 'Описание',
+    calories: 'ккал',
+    grams: 'г',
+    minutes: 'мин',
+    addedToCart: 'Добавлено в корзину',
+    viewDetails: 'Подробнее'
   },
   tk: {
     selectRestaurant: 'Restoran saýlaň',
@@ -157,7 +164,14 @@ export const translations = {
     imageSaved: 'Surat ýatda saklandy',
     imageDeleted: 'Surat pozuldy',
     errorUploadingImage: 'Surat ýüklemekde ýalňyşlyk',
-    selectImage: 'Surat saýlaň'
+    selectImage: 'Surat saýlaň',
+    // Модальное окно блюда
+    description: 'Düşündiriş',
+    calories: 'kkl',
+    grams: 'g',
+    minutes: 'min',
+    addedToCart: 'Sebede goşuldy',
+    viewDetails: 'Jikme-jiklik'
   }
 } as const
 
