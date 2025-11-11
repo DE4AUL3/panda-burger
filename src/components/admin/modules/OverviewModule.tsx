@@ -131,14 +131,17 @@ const OverviewModule: React.FC<OverviewModuleProps> = ({ onSubTabChange, theme, 
         const data = await res.json();
         // data: [{ date, sales, orders, customers }]
         if (!mounted) return;
-        const chartData = Array.isArray(data) ? data.map((d: any, index: number) => ({
-          date: d.date,
-          open: Math.max(10, Math.round(d.sales * (0.8 + Math.random() * 0.4))),
-          high: Math.round(d.sales * (1.1 + Math.random() * 0.2)),
-          low: Math.max(5, Math.round(d.sales * (0.7 + Math.random() * 0.2))),
-          close: Math.round(d.sales),
-          volume: Math.round(d.sales * (0.5 + Math.random() * 1.5))
-        })) : [];
+        const chartData = Array.isArray(data) ? data.map((d: any) => {
+          const value = Math.round(d.sales || 0);
+          return {
+            date: d.date,
+            open: value * 0.95,
+            high: value * 1.1,
+            low: value * 0.9,
+            close: value,
+            volume: d.orders || 0
+          };
+        }) : [];
         setSalesData(chartData);
       } catch (err) {
         console.error('Ошибка загрузки sales analytics', err);
