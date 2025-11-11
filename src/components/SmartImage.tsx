@@ -30,7 +30,7 @@ export function SmartImage({
   style,
 }: SmartImageProps) {
   // Получаем URL изображения из сервиса
-  const imageUrl = src.startsWith("http") ? src : `/images/${src}`;
+  const imageUrl = src.startsWith("http") ? src : (src.startsWith("/images/") ? src : `/images/${src}`);
   
   // Обработчик ошибок загрузки изображения
   const handleError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
