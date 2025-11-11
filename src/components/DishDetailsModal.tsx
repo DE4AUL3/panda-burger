@@ -40,9 +40,13 @@ export default function DishDetailsModal({ isOpen, onClose, dish }: DishDetailsM
       id: dish.id,
       name: dish.name,
       nameTk: dish.nameTk,
+      description: dish.description || '',
+      descriptionTk: dish.descriptionTk,
       price: dish.price,
       quantity,
-      image: dish.image
+      image: dish.image || '',
+      category: '',
+      ingredients: []
     })
     
     setShowAddedNotification(true)
