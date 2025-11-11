@@ -138,6 +138,29 @@ export default function AdminLayout({ children, activeTab: externalActiveTab, on
 
   // Динамическое количество заказов
   const [ordersCount, setOrdersCount] = useState(0);
+
+  // Загрузка активных заказов
+  useEffect(() => {
+    const fetchActiveOrdersCount = async () => {
+      try {
+        const response = await fetch('/api/orders?status=active');
+        if (response.ok) {
+          const data = await response.json();
+          setOrdersCount(Array.isArray(data) ? data.length : 0);
+        }
+      } catch (error) {
+        console.error('Ошибка загрузки активных заказов:', error);
+        setOrdersCount(0);
+      }
+    };
+
+    fetchActiveOrdersCount();
+    
+    // Обновляем каждые 30 секунд
+    const interval = setInterval(fetchActiveOrdersCount, 30000);
+    
+    return () => clearInterval(interval);
+  }, []);
   // Язык админки (глобальный)
   const { currentLanguage: language, setCurrentLanguage } = useLanguage();
   // Динамические вкладки навигации в зависимости от языка

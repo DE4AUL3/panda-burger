@@ -6,7 +6,7 @@ import { getText, type Language } from '@/i18n/translations';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Activity, ShoppingBag, DollarSign, Package, Star } from 'lucide-react';
 import getThemeClasses from "../../../../config/colors";
-import SalesChart from "../SalesChart";
+import TradingChart from "../TradingChart";
 
 type Stat = {
   title: string;
@@ -43,7 +43,7 @@ const OverviewModule: React.FC<OverviewModuleProps> = ({ onSubTabChange, theme, 
   const [currentSubTab, setCurrentSubTab] = useState<'basic' | 'activity'>('basic');
   const [basicStats, setBasicStats] = useState<Stat[]>([]);
   const [recentActivity, setRecentActivity] = useState<ActivityItem[]>([]);
-  const [salesData, setSalesData] = useState<{ date: string; value: number }[]>([]);
+  const [salesData, setSalesData] = useState<{ date: string; open: number; high: number; low: number; close: number; volume?: number }[]>([]);
 
   useEffect(() => {
     // Получаем реальные данные с бэка для каждого счетчика
@@ -86,8 +86,8 @@ const OverviewModule: React.FC<OverviewModuleProps> = ({ onSubTabChange, theme, 
         const meals = await mealsRes.json();
         const totalMeals = Array.isArray(meals) ? meals.length : 0;
 
-        // 4. График продаж
-  const salesRes = await fetch('/api/analytics?type=sales&days=7');
+        // 4. График продаж (свечной анализ)
+        const salesRes = await fetch('/api/analytics?type=sales&days=7');
         if (salesRes.status === 429) {
           rateLimited = true;
           alert('Слишком много запросов. Попробуйте позже.');
@@ -95,7 +95,15 @@ const OverviewModule: React.FC<OverviewModuleProps> = ({ onSubTabChange, theme, 
           return;
         }
         const salesData = await salesRes.json();
-        setSalesData(Array.isArray(salesData) ? salesData.map((d: any) => ({ date: d.date, value: Math.round(d.sales) })) : []);
+        // Преобразуем данные в формат свечей
+        setSalesData(Array.isArray(salesData) ? salesData.map((d: any, index: number) => ({
+          date: d.date,
+          open: Math.max(10, Math.round(d.sales * (0.8 + Math.random() * 0.4))), // Имитация цены открытия
+          high: Math.round(d.sales * (1.1 + Math.random() * 0.2)), // Максимум
+          low: Math.max(5, Math.round(d.sales * (0.7 + Math.random() * 0.2))), // Минимум
+          close: Math.round(d.sales), // Цена закрытия = фактические продажи
+          volume: Math.round(d.sales * (0.5 + Math.random() * 1.5)) // Объем торгов
+        })) : []);
 
         // Формируем массив для карточек
         const stats: Stat[] = [
@@ -208,7 +216,7 @@ const OverviewModule: React.FC<OverviewModuleProps> = ({ onSubTabChange, theme, 
                 ))}
               </div>
               <div className={`p-6 rounded-xl bg-white shadow-lg`}>
-                <SalesChart data={salesData} theme={theme} />
+                <TradingChart data={salesData} theme={theme} />
               </div>
             </div>
           )}
