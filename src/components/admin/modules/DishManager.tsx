@@ -683,7 +683,43 @@ export default function DishManager({ theme = 'light' }: DishManagerProps) {
                     />
                   </div>
                 </div>
-                {/* Описание убрано по требованию */}
+                
+                {/* Поля описания на двух языках */}
+                <div className="grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">{dishManagerTexts[lang].descRu}</label>
+                    <textarea
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white text-gray-900 resize-y min-h-[100px]"
+                      value={formData.description?.ru || ''}
+                      onChange={e => setFormData(prev => ({ 
+                        ...prev, 
+                        description: { 
+                          ...prev.description, 
+                          ru: e.target.value 
+                        } as { ru: string; tk: string } 
+                      }))}
+                      placeholder={lang === 'ru' ? 'Введите описание блюда (необязательно)' : 'Tagamyň düşündirilişini giriziň (hökmany däl)'}
+                      rows={4}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">{dishManagerTexts[lang].descTk}</label>
+                    <textarea
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white text-gray-900 resize-y min-h-[100px]"
+                      value={formData.description?.tk || ''}
+                      onChange={e => setFormData(prev => ({ 
+                        ...prev, 
+                        description: { 
+                          ...prev.description, 
+                          tk: e.target.value 
+                        } as { ru: string; tk: string } 
+                      }))}
+                      placeholder={lang === 'ru' ? 'Введите описание блюда (необязательно)' : 'Tagamyň düşündirilişini giriziň (hökmany däl)'}
+                      rows={4}
+                    />
+                  </div>
+                </div>
+
                 <div className="grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">{dishManagerTexts[lang].category}</label>

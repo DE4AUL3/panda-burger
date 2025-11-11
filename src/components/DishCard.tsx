@@ -66,33 +66,28 @@ export default function DishCard({ dish }: DishCardProps) {
         {!orderMode ? (
           <>
             <div>
-              <div className="flex items-center justify-between gap-2">
-                <h3 className={`text-lg font-semibold ${themeClasses.text} flex-1`}>{dish.name}</h3>
-                <button
-                  onClick={() => setShowModal(true)}
-                  className={`p-2 rounded-full ${themeClasses.bgSecondary} hover:${themeClasses.accent} hover:text-white transition-colors`}
-                  aria-label={t('viewDetails')}
-                >
-                  <Info className="w-4 h-4" />
-                </button>
-              </div>
+              <h3 className={`text-lg font-semibold ${themeClasses.text}`}>{dish.name}</h3>
               {dish.description ? (
                 <p className={`text-sm ${themeClasses.textSecondary} mt-1 line-clamp-3`}>{dish.description}</p>
               ) : null}
             </div>
 
-            <div className="flex items-center justify-between gap-3">
-              <div className="flex items-center gap-3">
-                <span className={`text-sm ${themeClasses.textMuted}`}>{t('order')}</span>
-              </div>
-
+            <div className="flex items-center gap-3">
               <button
-                className={`ml-auto w-36 md:w-40 py-2 rounded-2xl font-semibold transition ${themeClasses.accent} text-white`}
+                className={`flex-1 py-2 rounded-2xl font-semibold transition ${themeClasses.accent} text-white`}
                 onClick={() => setOrderMode(true)}
                 aria-label={t('order')}
                 data-testid="order-btn"
               >
                 {t('order')}
+              </button>
+              
+              <button
+                onClick={() => setShowModal(true)}
+                className={`p-2 rounded-full ${themeClasses.bgSecondary} hover:${themeClasses.accent} hover:text-white transition-colors`}
+                aria-label={t('viewDetails')}
+              >
+                <Info className="w-4 h-4" />
               </button>
             </div>
           </>
